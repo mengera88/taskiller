@@ -70,7 +70,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({                                   // html模板输出插件
-      title: 'XRene Personal Blog',
+      title: 'task kill',
       template: `${PATHS.dist}/template/index.ejs`,
       inject: 'body',
       filename: `${PATHS.dist}/pages/index.html`

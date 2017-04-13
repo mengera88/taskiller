@@ -1,15 +1,17 @@
 <template>
   <article class="post-page">
     <input class="adds" type="text" v-model="addlists"  @keyup.enter="addList($event)">
-    <todo-list class="todo" v-for="(list, index) in lists" :text="list.text" :done="list.done" :index="index" :key="index" @doneChange="change($event)"></todo-list>
-    <search></search>
-    
+    <h1>未完成</h1>
+    <todo-list class="todo" v-for="(todo, index) in undoneTodos" :todo="todo" :key="index"></todo-list>
+    <h1>已完成</h1>
+    <todo-list class="todo" v-for="(todo, index) in doneTodos" :todo="todo" :key="index"></todo-list>
   </article>
 </template>
 
 <script>
   import TodoList from 'components/todo-list.vue';
-  import Search from 'components/search.vue';
+  import { mapState } from 'vuex'
+  import {mapGetters} from 'vuex'
 
   const COMPONENT_NAME = 'post-page';
 
@@ -17,38 +19,27 @@
     name: COMPONENT_NAME,
     data() {
       return {
-        lists: [{
-          text: '1',
-          done: false
-        },{
-          text: '2',
-          done: false
-        },{
-          text: '3',
-          done: false
-        },{
-          text: '4',
-          done: false
-        }],
-        addlists: '',
+        addlists: ''
       }
+    },
+    computed: {
+      ...mapState([
+        'todos',
+      ]),
+      ...mapGetters([
+        'doneTodos',
+        'undoneTodos'
+      ])
     },
     methods: {
       addList(e) {
-        this.lists.push({
-          text: this.addlists,
-          done: false
-        });
+        var text = this.addlists
+        this.$store.commit('addTodo', {text})
         this.addlists = '';
       },
-      change(e) {
-        console.log(e)
-        this.lists[e.index].done = e.value;
-      }
     },
     components: {
       TodoList,
-      Search
     }
   }
 </script>
