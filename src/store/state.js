@@ -1,3 +1,5 @@
 export const state = {
-    todos: []
+    todos: [],
+    curMenu: {},
+    menus: []
 }

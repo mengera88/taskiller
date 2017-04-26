@@ -1,62 +1,86 @@
 <template>
-  <div class="index-page">
-    <div class="info-container">
-      <div class="avatar-box">
-      </div>
-      <div class="nav-box">
-        <p class="nav-list">
-          <router-link class="nav-item" to="/post">文章</router-link>
-          <router-link class="nav-item" to="/tags">标签</router-link>
-          <router-link class="nav-item" to="/archive">归档</router-link>
-          <router-link class="nav-item" to="/about">关于</router-link>
-        </p>
-      </div>
+  <article class="post-page">
+    <div class="g-left">
+      <menus></menus>
     </div>
-  </div>
+    <div class="g-right">
+      <input class="adds" type="text" v-model="addlists"  @keyup.enter="addList($event)" placeholder="添加任务...">
+      <todo-list class="todo" v-for="(todo, index) in undoneTodos" :todo="todo" :key="index"></todo-list>
+      <div class="title" @click="isShowDone = !isShowDone"> {{isShowDone ? '隐藏已完成任务' : '显示已完成任务'}} <span class="subtitle">共{{doneTodos.length}}项</span></div>
+      <todo-list v-show="isShowDone" class="todo" v-for="(todo, index) in doneTodos" :todo="todo" :key="index + 'done'"></todo-list>
+    </div>
+  </article>
 </template>
+
 <script>
-  const COMPONENT_NAME = 'index-page';
+  import TodoList from 'components/todo-list.vue'
+  import Menus from 'components/common/menus.vue'
+
+  import { mapState } from 'vuex'
+  import {mapGetters} from 'vuex'
+
+  const COMPONENT_NAME = 'post-page';
 
   export default {
-    name: COMPONENT_NAME
+    name: COMPONENT_NAME,
+    data() {
+      return {
+        addlists: '',
+        isShowDone: false
+      }
+    },
+    computed: {
+      ...mapState([
+        'todos',
+        'curMenu'
+      ]),
+      ...mapGetters([
+        'doneTodos',
+        'undoneTodos'
+      ])
+    },
+    methods: {
+      addList(e) {
+        var text = this.addlists
+        var curMenu = this.curMenu.id
+        this.$store.dispatch('addTodo', {text: text, curMenu: curMenu})
+        this.addlists = '';
+      },
+    },
+    components: {
+      TodoList,
+      Menus
+    }
   }
 </script>
+
 <style lang="less">
-  .index-page {
-    position: relative;
+  .post-page {
     width: 100%;
-    height: 100%;
-    background: url('../images/Shapes.jpg') no-repeat;
-    background-size: cover;
   }
-  
-  .info-container {
-    position: absolute;
-    top: 35%;
-    left: 50%;
+  .adds{
+    width: 100%;
+    border: 1px solid #dedede;
+    margin-bottom: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 3px;
+    padding-left: 10px;
+  }
+  .todo{
+    text-align: left;
+  }
+  .title{
     width: 300px;
-    height: 150px;
-    transform: translate(-50%, -30%);
-    text-align: center;
-  }
-  
-  .avatar-box {
-    display: inline-block;
-    width: 70px;
-    height: 70px;
-    border-radius: 100%;
-    border: 1px solid #e3e3e3;
-    background: url('../images/avatar.png') no-repeat;
-    background-size: cover;
-  }
-  
-  .nav-list {
-    display: flex;
-    margin-top: 20px;
-    .nav-item {
-      flex: 1;
-      cursor: pointer;
-      color: #fff;
+    height: 32px;
+    line-height: 32px; 
+    text-align: left;
+    cursor: pointer;
+    .subtitle{
+      color: #999;
+      font-size: 12px;
     }
   }
 </style>

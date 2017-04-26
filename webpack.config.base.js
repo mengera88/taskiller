@@ -3,6 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const autoprefixer = require('autoprefixer');
 
 
 const PATHS = {
@@ -45,8 +46,8 @@ module.exports = {
             'less-loader'
           ]
         })
-      },
-      {
+       },
+       {
         test: /\.css/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
@@ -54,8 +55,12 @@ module.exports = {
             'css-loader'
           ]
         })
-      }
-    ]
+       },
+       {
+          test: /\.(eot|svg|ttf|woff|woff2|png)\w*/,
+          loader: 'file-loader'
+        }
+     ]
   },
   resolve: {
     alias: {
