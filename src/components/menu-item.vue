@@ -3,8 +3,8 @@
         <div>
             <i class="fa fa-list-ul" aria-hidden="true"></i>
             <span>{{item.name}}</span>
-            <span v-show="!item.selected" class="tips">3</span>
-            <i v-show="item.selected" class="fa fa-pencil-square-o tips" aria-hidden="true"></i>
+            <span v-show="!item.selected" class="tips"></span>
+            <i v-show="curMenu === item" class="fa fa-pencil-square-o tips" aria-hidden="true"></i>
         </div>
     </div>
 </template>

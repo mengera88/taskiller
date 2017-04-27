@@ -11,6 +11,10 @@ const getTodolist = 'SELECT * FROM todo_list WHERE menu_id = ?'
 const insertTodolist = 'INSERT INTO todo_list SET ?'
 const deleteTodo = 'DELETE from todo_list WHERE id = ?'
 const updateTodolist = 'UPDATE todo_list SET done = ? WHERE id = ?'
+//TODO:初始化选择的menu数据库逻辑设定
+// const setSelectedMenu = 'UPDATE menu SET selected = 0 WHERE id = ?' 
+
+let menus;  //所有menu列表缓存
 
 const app = express();
 app.use(bodyParser());
@@ -42,13 +46,17 @@ app.post('/menu/add', function (req, res, next) {
 app.get('/menu/get', function(req, res, next) {
     connection.query(getAllMenu, function(error, results, fields) {
         if(error) throw error;
+        menus = results;
         res.json(results);
+        next()
     })
 })
+
 
 //得到指定id的目录
 app.get('/menu/get/:id', function(req, res, next) {
     console.log('ID:', req.params.id);
+   
     connection.query(getMenu, req.params.id, function(error, results, fields) {
         if(error) throw error;
         res.json(results);
@@ -57,6 +65,10 @@ app.get('/menu/get/:id', function(req, res, next) {
 
 //根据目录获取todolist
 app.get('/todolist/get/:id', function(req, res, next) {
+    // connection.query(setSelectedMenu, req.params.id, function(error, results, fields) {
+    //     if(error) throw error;
+    //     console.log(results)
+    // })
     connection.query(getTodolist, req.params.id, function(error, results, fields) {
         if(error) return error;
         res.json(results);

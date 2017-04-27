@@ -1,6 +1,5 @@
 export const mutations = {
     addTodo(state, {todo}) {
-        console.log(todo)
         state.todos.push(todo)
     },
     
