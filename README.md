@@ -17,7 +17,7 @@
 
 ## 详细教程
 
-参见我的博客，正在整理中...
+参见我的[博客](https://mengera88.github.io/2017/04/27/%E5%BA%94%E7%94%A8vue2-vuex-vue-router-webpack2-es6-express-mysql%E6%8A%80%E6%9C%AF%E7%BC%96%E5%86%99%E7%AE%80%E5%8D%95%E7%9A%84todolist/)
 
 
 
